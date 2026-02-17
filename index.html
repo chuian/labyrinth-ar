@@ -11,9 +11,11 @@
 
 <body style="margin:0; overflow:hidden; touch-action:none;">
 
-<a-scene embedded arjs="trackingMethod: best; sourceType: webcam;">
+<a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
 
 <a-marker preset="hiro">
+
+<!-- TITLE -->
 
 <a-text
 value="Nightmare Escape"
@@ -24,25 +26,30 @@ color="#ff66ff">
 </a-text>
 
 <!-- DAGGER 1 -->
-<a-entity id="d1" class="clickable" position="-0.5 0.3 0" rotation="-90 0 0">
-  <a-box id="d1blade" depth="0.03" height="0.5" width="0.07" color="red"></a-box>
+
+<a-entity position="-0.5 0.3 0" rotation="-90 0 0">
+  <a-box id="d1blade" depth="0.05" height="0.5" width="0.15" color="red"></a-box>
   <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
   <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
 </a-entity>
 
 <!-- DAGGER 2 -->
-<a-entity id="d2" class="clickable" position="0 0.3 0" rotation="-90 0 0">
-  <a-box id="d2blade" depth="0.03" height="0.5" width="0.07" color="blue"></a-box>
+
+<a-entity position="0 0.3 0" rotation="-90 0 0">
+  <a-box id="d2blade" depth="0.05" height="0.5" width="0.15" color="blue"></a-box>
   <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
   <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
 </a-entity>
 
 <!-- DAGGER 3 -->
-<a-entity id="d3" class="clickable" position="0.5 0.3 0" rotation="-90 0 0">
-  <a-box id="d3blade" depth="0.03" height="0.5" width="0.07" color="green"></a-box>
+
+<a-entity position="0.5 0.3 0" rotation="-90 0 0">
+  <a-box id="d3blade" depth="0.05" height="0.5" width="0.15" color="green"></a-box>
   <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
   <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
 </a-entity>
+
+<!-- REWARD -->
 
 <a-text id="reward"
 value="H"
@@ -76,7 +83,7 @@ function checkWin(){
   }
 }
 
-/* -------- SAFE MOBILE TOUCH -------- */
+/* ---------- MOBILE TOUCH RAYCAST ---------- */
 
 window.addEventListener("load", () => {
 
@@ -87,29 +94,30 @@ window.addEventListener("load", () => {
     if (!scene.camera) return;
 
     const touch = e.touches[0];
-    const mouse = new THREE.Vector2();
 
-    mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+    const mouse = new THREE.Vector2(
+      (touch.clientX / window.innerWidth) * 2 - 1,
+      -(touch.clientY / window.innerHeight) * 2 + 1
+    );
 
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, scene.camera);
 
-    const objects = [
+    const targets = [
       document.querySelector("#d1blade").object3D,
       document.querySelector("#d2blade").object3D,
       document.querySelector("#d3blade").object3D
     ];
 
-    const hits = raycaster.intersectObjects(objects, true);
+    const hits = raycaster.intersectObjects(targets, true);
 
     if (hits.length === 0) return;
 
-    const hit = hits[0].object.el.id;
+    const id = hits[0].object.el.id;
 
-    if(hit === "d1blade") cycle("#d1blade",0);
-    if(hit === "d2blade") cycle("#d2blade",1);
-    if(hit === "d3blade") cycle("#d3blade",2);
+    if(id === "d1blade") cycle("#d1blade",0);
+    if(id === "d2blade") cycle("#d2blade",1);
+    if(id === "d3blade") cycle("#d3blade",2);
 
   });
 
