@@ -70,16 +70,8 @@ visible="false">
 
 </a-scene>
 
-<script>
 
-// mobile-safe tap handler
-AFRAME.registerComponent('tap-listener', {
-  init: function () {
-    this.el.addEventListener('click', () => {
-      this.el.emit('tapped');
-    });
-  }
-});
+<script>
 
 const colors = ["red","blue","green","yellow"];
 let state = [0,1,2];
@@ -96,12 +88,43 @@ function checkWin(){
   }
 }
 
-// attach tap listeners
-document.querySelector("#d1").addEventListener("click",()=>cycle("#d1blade",0));
-document.querySelector("#d2").addEventListener("click",()=>cycle("#d2blade",1));
-document.querySelector("#d3").addEventListener("click",()=>cycle("#d3blade",2));
+/* ---------- REAL MOBILE TOUCH DETECTION ---------- */
+
+const scene = document.querySelector("a-scene");
+
+scene.addEventListener("touchstart", function (e) {
+
+  const touch = e.touches[0];
+  const mouse = new THREE.Vector2();
+
+  mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+  const camera = scene.camera;
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, camera);
+
+  const objects = [
+    document.querySelector("#d1blade").object3D,
+    document.querySelector("#d2blade").object3D,
+    document.querySelector("#d3blade").object3D
+  ];
+
+  const hits = raycaster.intersectObjects(objects, true);
+
+  if (hits.length > 0) {
+    const hit = hits[0].object;
+
+    if (hit.el.id === "d1blade") cycle("#d1blade",0);
+    if (hit.el.id === "d2blade") cycle("#d2blade",1);
+    if (hit.el.id === "d3blade") cycle("#d3blade",2);
+  }
+
+});
 
 </script>
+
+  
 
 </body>
 </html>
