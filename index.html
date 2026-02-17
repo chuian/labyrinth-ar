@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Dagger Puzzle</title>
+<title>Nightmare Escape</title>
 
 <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
@@ -15,25 +15,56 @@
 
 <a-marker preset="hiro">
 
-<!-- Daggers -->
+<!-- Title -->
 
-<a-box id="d1" position="-1 1 0" depth="0.1" height="1" width="0.2" color="red"></a-box>
-<a-box id="d2" position="0 1 0" depth="0.1" height="1" width="0.2" color="blue"></a-box>
-<a-box id="d3" position="1 1 0" depth="0.1" height="1" width="0.2" color="green"></a-box>
+<a-text
+value="Nightmare Escape"
+position="-1.6 2.6 0"
+scale="2 2 2"
+color="#ff66ff">
+</a-text>
 
-<!-- Reward letter -->
+<!-- DAGGER 1 -->
+
+<a-entity id="d1" class="clickable" position="-1 1 0">
+  <a-box id="d1blade" depth="0.05" height="1.2" width="0.15" color="red"></a-box>
+  <a-box depth="0.1" height="0.1" width="0.5" position="0 -0.6 0" color="#222"></a-box>
+  <a-box depth="0.05" height="0.5" width="0.1" position="0 -1 0" color="#111"></a-box>
+</a-entity>
+
+<!-- DAGGER 2 -->
+
+<a-entity id="d2" class="clickable" position="0 1 0">
+  <a-box id="d2blade" depth="0.05" height="1.2" width="0.15" color="blue"></a-box>
+  <a-box depth="0.1" height="0.1" width="0.5" position="0 -0.6 0" color="#222"></a-box>
+  <a-box depth="0.05" height="0.5" width="0.1" position="0 -1 0" color="#111"></a-box>
+</a-entity>
+
+<!-- DAGGER 3 -->
+
+<a-entity id="d3" class="clickable" position="1 1 0">
+  <a-box id="d3blade" depth="0.05" height="1.2" width="0.15" color="green"></a-box>
+  <a-box depth="0.1" height="0.1" width="0.5" position="0 -0.6 0" color="#222"></a-box>
+  <a-box depth="0.05" height="0.5" width="0.1" position="0 -1 0" color="#111"></a-box>
+</a-entity>
+
+<!-- Reward -->
 
 <a-text id="reward"
 value="H"
-position="-0.3 2 0"
-scale="5 5 5"
+position="-0.3 3.5 0"
+scale="6 6 6"
 color="gold"
 visible="false">
 </a-text>
 
 </a-marker>
 
-<a-entity camera></a-entity>
+<!-- Camera cursor -->
+
+<a-entity camera>
+  <a-cursor rayOrigin="mouse" raycaster="objects: .clickable"></a-cursor>
+</a-entity>
 
 </a-scene>
 
@@ -42,9 +73,9 @@ visible="false">
 const colors = ["red","blue","green","yellow"];
 let state = [0,1,2];
 
-function cycle(id,i){
+function cycle(bladeId,i){
   state[i] = (state[i]+1)%colors.length;
-  document.querySelector(id).setAttribute("color", colors[state[i]]);
+  document.querySelector(bladeId).setAttribute("color", colors[state[i]]);
   checkWin();
 }
 
@@ -54,9 +85,9 @@ function checkWin(){
   }
 }
 
-document.querySelector("#d1").addEventListener("click",()=>cycle("#d1",0));
-document.querySelector("#d2").addEventListener("click",()=>cycle("#d2",1));
-document.querySelector("#d3").addEventListener("click",()=>cycle("#d3",2));
+document.querySelector("#d1").addEventListener("click",()=>cycle("#d1blade",0));
+document.querySelector("#d2").addEventListener("click",()=>cycle("#d2blade",1));
+document.querySelector("#d3").addEventListener("click",()=>cycle("#d3blade",2));
 
 </script>
 
