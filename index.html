@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Nightmare Escape - Responsive AR</title>
+    <title>Nightmare Escape</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
@@ -17,32 +17,41 @@
 
         <a-marker preset="hiro">
 
-            <a-text value="Nightmare Escape" position="0 1.2 -0.5" rotation="-90 0 0" align="center" scale="0.8 0.8 0.8" color="#ff66ff"></a-text>
+            <a-text 
+                value="Nightmare Escape" 
+                position="0 1.2 -0.8" 
+                rotation="-90 0 0" 
+                align="center" 
+                scale="1.2 1.2 1.2" 
+                color="#ff66ff">
+            </a-text>
 
-            <a-entity id="dagger1" position="-0.8 0.3 0" rotation="-90 0 0">
+            <a-entity id="dagger1" position="-1 0.4 0" rotation="-90 0 0" scale="1.5 1.5 1.5">
                 <a-box id="d1blade" depth="0.05" height="0.5" width="0.1" color="red"></a-box>
-                <a-box id="d1hit" class="clickable" depth="0.4" height="0.7" width="0.6" opacity="0" transparent="true"></a-box>
+                <a-box id="d1hit" class="clickable" depth="0.6" height="0.8" width="0.6" opacity="0" transparent="true"></a-box>
                 <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
                 <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
             </a-entity>
 
-            <a-entity id="dagger2" position="0 0.3 0" rotation="-90 0 0">
+            <a-entity id="dagger2" position="0 0.4 0" rotation="-90 0 0" scale="1.5 1.5 1.5">
                 <a-box id="d2blade" depth="0.05" height="0.5" width="0.1" color="blue"></a-box>
-                <a-box id="d2hit" class="clickable" depth="0.4" height="0.7" width="0.6" opacity="0" transparent="true"></a-box>
+                <a-box id="d2hit" class="clickable" depth="0.6" height="0.8" width="0.6" opacity="0" transparent="true"></a-box>
                 <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
                 <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
             </a-entity>
 
-            <a-entity id="dagger3" position="0.8 0.3 0" rotation="-90 0 0">
+            <a-entity id="dagger3" position="1 0.4 0" rotation="-90 0 0" scale="1.5 1.5 1.5">
                 <a-box id="d3blade" depth="0.05" height="0.5" width="0.1" color="green"></a-box>
-                <a-box id="d3hit" class="clickable" depth="0.4" height="0.7" width="0.6" opacity="0" transparent="true"></a-box>
+                <a-box id="d3hit" class="clickable" depth="0.6" height="0.8" width="0.6" opacity="0" transparent="true"></a-box>
                 <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
                 <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
             </a-entity>
 
-            <a-entity id="reward" visible="false" position="0 1.5 0" rotation="-90 0 0">
-                <a-text value="ESCAPE OPEN" align="center" color="gold" scale="1.5 1.5 1.5"></a-text>
-                <a-torus color="gold" radius="0.5" radius-tubular="0.01" animation="property: rotation; to: 0 360 0; loop: true; dur: 3000"></a-torus>
+            <a-entity id="reward" visible="false" position="0 2 0" rotation="-90 0 0">
+                <a-text value="H" align="center" color="gold" scale="5 5 5"></a-text>
+                <a-torus color="gold" radius="0.4" radius-tubular="0.01" 
+                          animation="property: rotation; to: 0 360 0; loop: true; dur: 2000">
+                </a-torus>
             </a-entity>
 
         </a-marker>
@@ -55,23 +64,21 @@
         const colors = ["red", "blue", "green", "yellow"];
         let state = [0, 1, 2];
 
-        // This function handles the logic and the visual "pulse"
         function handleInteraction(index) {
-            // 1. Update logic state
             state[index] = (state[index] + 1) % colors.length;
             
-            // 2. Update the color of the specific blade
             const blade = document.querySelector(`#d${index + 1}blade`);
             blade.setAttribute("color", colors[state[index]]);
 
-            // 3. Feedback: Make the whole dagger "pulse" so the user knows it worked
+            // Interaction feedback (Pulse)
             const dagger = document.querySelector(`#dagger${index + 1}`);
+            dagger.removeAttribute('animation'); 
             dagger.setAttribute('animation', {
                 property: 'scale',
-                from: '1.2 1.2 1.2',
-                to: '1 1 1',
+                from: '1.8 1.8 1.8',
+                to: '1.5 1.5 1.5',
                 dur: 200,
-                easing: 'easeOutCubic'
+                easing: 'easeOutQuad'
             });
 
             checkWin();
@@ -79,22 +86,19 @@
 
         function checkWin() {
             const reward = document.querySelector("#reward");
-            if (state[0] === state[1] && state[1] === state[2]) {
-                reward.setAttribute("visible", true);
-            } else {
-                reward.setAttribute("visible", false);
-            }
+            const isWin = (state[0] === state[1] && state[1] === state[2]);
+            reward.setAttribute("visible", isWin);
         }
 
-        // Initialize listeners
         window.onload = () => {
-            for (let i = 0; i < 3; i++) {
-                const hitZone = document.querySelector(`#d${i + 1}hit`);
-                // 'click' works for both mouse and touch in A-Frame
-                hitZone.addEventListener('click', () => {
+            const hits = ["#d1hit", "#d2hit", "#d3hit"];
+            hits.forEach((selector, i) => {
+                const el = document.querySelector(selector);
+                // MouseDown is best for mobile AR responsiveness
+                el.addEventListener('mousedown', () => {
                     handleInteraction(i);
                 });
-            }
+            });
         };
     </script>
 </body>
