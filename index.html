@@ -15,18 +15,19 @@
 
 <a-marker preset="hiro">
 
-<!-- Title -->
+<!-- TITLE (closer to camera) -->
 
 <a-text
 value="Nightmare Escape"
-position="-1.6 2.6 0"
+position="-1.5 3 0.5"
+rotation="-90 0 0"
 scale="2 2 2"
 color="#ff66ff">
 </a-text>
 
 <!-- DAGGER 1 -->
 
-<a-entity id="d1" class="clickable" position="-1 1 0">
+<a-entity id="d1" class="clickable" position="-1 1 0" rotation="-90 0 0">
   <a-box id="d1blade" depth="0.05" height="1.2" width="0.15" color="red"></a-box>
   <a-box depth="0.1" height="0.1" width="0.5" position="0 -0.6 0" color="#222"></a-box>
   <a-box depth="0.05" height="0.5" width="0.1" position="0 -1 0" color="#111"></a-box>
@@ -34,7 +35,7 @@ color="#ff66ff">
 
 <!-- DAGGER 2 -->
 
-<a-entity id="d2" class="clickable" position="0 1 0">
+<a-entity id="d2" class="clickable" position="0 1 0" rotation="-90 0 0">
   <a-box id="d2blade" depth="0.05" height="1.2" width="0.15" color="blue"></a-box>
   <a-box depth="0.1" height="0.1" width="0.5" position="0 -0.6 0" color="#222"></a-box>
   <a-box depth="0.05" height="0.5" width="0.1" position="0 -1 0" color="#111"></a-box>
@@ -42,7 +43,7 @@ color="#ff66ff">
 
 <!-- DAGGER 3 -->
 
-<a-entity id="d3" class="clickable" position="1 1 0">
+<a-entity id="d3" class="clickable" position="1 1 0" rotation="-90 0 0">
   <a-box id="d3blade" depth="0.05" height="1.2" width="0.15" color="green"></a-box>
   <a-box depth="0.1" height="0.1" width="0.5" position="0 -0.6 0" color="#222"></a-box>
   <a-box depth="0.05" height="0.5" width="0.1" position="0 -1 0" color="#111"></a-box>
@@ -52,7 +53,8 @@ color="#ff66ff">
 
 <a-text id="reward"
 value="H"
-position="-0.3 3.5 0"
+position="-0.3 4 0.5"
+rotation="-90 0 0"
 scale="6 6 6"
 color="gold"
 visible="false">
@@ -60,10 +62,14 @@ visible="false">
 
 </a-marker>
 
-<!-- Camera cursor -->
+<!-- Camera + FIXED touch system -->
 
-<a-entity camera>
-  <a-cursor rayOrigin="mouse" raycaster="objects: .clickable"></a-cursor>
+<a-entity camera look-controls>
+  <a-cursor
+    fuse="false"
+    rayOrigin="mouse"
+    raycaster="objects: .clickable; far: 20">
+  </a-cursor>
 </a-entity>
 
 </a-scene>
