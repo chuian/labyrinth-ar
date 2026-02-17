@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Anime Memory Ritual</title>
+<title>Dagger Puzzle</title>
 
 <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
@@ -11,78 +11,23 @@
 
 <body style="margin:0; overflow:hidden; background:black;">
 
-<a-scene embedded arjs renderer="logarithmicDepthBuffer: true">
+<a-scene embedded arjs>
 
 <a-marker preset="hiro">
 
-<!-- Magical aura light -->
+<!-- Daggers -->
 
-<a-light type="point" color="#ff00ff" intensity="2" position="0 1 1"></a-light>
+<a-box id="d1" position="-1 1 0" depth="0.1" height="1" width="0.2" color="red"></a-box>
+<a-box id="d2" position="0 1 0" depth="0.1" height="1" width="0.2" color="blue"></a-box>
+<a-box id="d3" position="1 1 0" depth="0.1" height="1" width="0.2" color="green"></a-box>
 
-<!-- Anime rings -->
+<!-- Reward letter -->
 
-<a-torus id="r1"
-position="0 0.8 0"
-radius="0.9"
-radius-tubular="0.06"
-color="#ff00ff"
-animation="property: rotation; to: 0 360 0; loop: true; dur: 6000">
-</a-torus>
-
-<a-torus id="r2"
-position="0 0.8 0"
-radius="0.6"
-radius-tubular="0.06"
-color="#00ffff"
-animation="property: rotation; to: 0 -360 0; loop: true; dur: 5000">
-</a-torus>
-
-<a-torus id="r3"
-position="0 0.8 0"
-radius="0.3"
-radius-tubular="0.06"
-color="#ffff00"
-animation="property: rotation; to: 0 360 0; loop: true; dur: 4000">
-</a-torus>
-
-<!-- Floating anime particles -->
-
-<a-entity id="particles">
-  <a-sphere position="0 1.4 0" radius="0.03" color="#ff66ff"
-  animation="property: position; dir: alternate; dur: 1200; loop: true; to: 0 1.6 0"></a-sphere>
-
-  <a-sphere position="0.4 1.2 0" radius="0.03" color="#66ffff"
-  animation="property: position; dir: alternate; dur: 900; loop: true; to: 0.4 1.5 0"></a-sphere>
-
-  <a-sphere position="-0.4 1.2 0" radius="0.03" color="#ffff66"
-  animation="property: position; dir: alternate; dur: 1500; loop: true; to: -0.4 1.5 0"></a-sphere>
-</a-entity>
-
-<!-- Instruction text -->
-
-<a-text
-value="Complete the ritual"
-position="-1 2 0"
-color="#ffffff"
-scale="1.5 1.5 1.5">
-</a-text>
-
-<!-- Letter panel -->
-
-<a-plane id="letter"
-position="0 1.2 0"
-width="2.4"
-height="1.2"
-color="#110022"
-visible="false"
-material="opacity:0.9">
-</a-plane>
-
-<a-text id="letterText"
-value="A memory awakens...\n\nYou walked the labyrinth\nnot to escape.\n\nBut to remember\nwho you are."
-position="-1.1 1.35 0.01"
-width="2.3"
-color="#ffccff"
+<a-text id="reward"
+value="H"
+position="-0.3 2 0"
+scale="5 5 5"
+color="gold"
 visible="false">
 </a-text>
 
@@ -94,49 +39,24 @@ visible="false">
 
 <script>
 
-let state = [0,0,0];
-let solved = false;
+const colors = ["red","blue","green","yellow"];
+let state = [0,1,2];
 
-function flash(entity){
-  entity.setAttribute("animation__flash",
-    "property: material.emissiveIntensity; from: 0; to: 2; dur: 200; dir: alternate; loop: 2");
+function cycle(id,i){
+  state[i] = (state[i]+1)%colors.length;
+  document.querySelector(id).setAttribute("color", colors[state[i]]);
+  checkWin();
 }
 
-function rotate(id,i){
-  if(solved) return;
-
-  const r = document.querySelector(id);
-  r.object3D.rotation.y += Math.PI/2;
-  state[i] = (state[i]+1)%4;
-
-  flash(r);
-  checkSolved();
-}
-
-function checkSolved(){
-  if(state[0]===2 && state[1]===2 && state[2]===2){
-    solved = true;
-    revealLetter();
+function checkWin(){
+  if(state[0]===state[1] && state[1]===state[2]){
+    document.querySelector("#reward").setAttribute("visible", true);
   }
 }
 
-function revealLetter(){
-  const plane = document.querySelector("#letter");
-  const text = document.querySelector("#letterText");
-
-  plane.setAttribute("visible", true);
-  text.setAttribute("visible", true);
-
-  plane.setAttribute("animation",
-    "property: scale; from: 0 0 0; to: 1 1 1; dur: 800; easing: easeOutElastic");
-
-  text.setAttribute("animation",
-    "property: opacity; from: 0; to: 1; dur: 1200");
-}
-
-document.querySelector("#r1").addEventListener("click",()=>rotate("#r1",0));
-document.querySelector("#r2").addEventListener("click",()=>rotate("#r2",1));
-document.querySelector("#r3").addEventListener("click",()=>rotate("#r3",2));
+document.querySelector("#d1").addEventListener("click",()=>cycle("#d1",0));
+document.querySelector("#d2").addEventListener("click",()=>cycle("#d2",1));
+document.querySelector("#d3").addEventListener("click",()=>cycle("#d3",2));
 
 </script>
 
