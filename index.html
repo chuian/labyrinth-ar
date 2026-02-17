@@ -15,47 +15,67 @@
 
 <a-marker preset="hiro">
 
-<!-- TITLE -->
+<!-- TITLE (far above interaction zone) -->
 
 <a-text
 value="Nightmare Escape"
-position="-0.6 0.9 0"
+position="0 1.8 0"
 rotation="-90 0 0"
-scale="0.5 0.5 0.5"
+scale="0.7 0.7 0.7"
 color="#ff66ff">
 </a-text>
 
 <!-- DAGGER 1 -->
 
-<a-entity position="-0.5 0.3 0" rotation="-90 0 0">
-  <a-box id="d1blade" depth="0.05" height="0.5" width="0.15" color="red"></a-box>
+<a-entity position="-0.8 0.3 0" rotation="-90 0 0">
+
+  <!-- visible blade -->
+  <a-box id="d1blade" depth="0.05" height="0.5" width="0.1" color="red"></a-box>
+
+  <!-- invisible giant hitbox -->
+  <a-box id="d1hit" depth="0.3" height="0.7" width="0.5"
+         color="white" opacity="0" transparent="true"></a-box>
+
   <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
   <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
+
 </a-entity>
 
 <!-- DAGGER 2 -->
 
 <a-entity position="0 0.3 0" rotation="-90 0 0">
-  <a-box id="d2blade" depth="0.05" height="0.5" width="0.15" color="blue"></a-box>
+
+  <a-box id="d2blade" depth="0.05" height="0.5" width="0.1" color="blue"></a-box>
+
+  <a-box id="d2hit" depth="0.3" height="0.7" width="0.5"
+         color="white" opacity="0" transparent="true"></a-box>
+
   <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
   <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
+
 </a-entity>
 
 <!-- DAGGER 3 -->
 
-<a-entity position="0.5 0.3 0" rotation="-90 0 0">
-  <a-box id="d3blade" depth="0.05" height="0.5" width="0.15" color="green"></a-box>
+<a-entity position="0.8 0.3 0" rotation="-90 0 0">
+
+  <a-box id="d3blade" depth="0.05" height="0.5" width="0.1" color="green"></a-box>
+
+  <a-box id="d3hit" depth="0.3" height="0.7" width="0.5"
+         color="white" opacity="0" transparent="true"></a-box>
+
   <a-box depth="0.05" height="0.05" width="0.2" position="0 -0.25 0" color="#222"></a-box>
   <a-box depth="0.03" height="0.2" width="0.05" position="0 -0.4 0" color="#111"></a-box>
+
 </a-entity>
 
 <!-- REWARD -->
 
 <a-text id="reward"
 value="H"
-position="-0.1 1.2 0"
+position="0 2.2 0"
 rotation="-90 0 0"
-scale="1 1 1"
+scale="1.2 1.2 1.2"
 color="gold"
 visible="false">
 </a-text>
@@ -83,7 +103,7 @@ function checkWin(){
   }
 }
 
-/* ---------- MOBILE TOUCH RAYCAST ---------- */
+/* ---------- GIANT MOBILE HIT DETECTION ---------- */
 
 window.addEventListener("load", () => {
 
@@ -104,9 +124,9 @@ window.addEventListener("load", () => {
     raycaster.setFromCamera(mouse, scene.camera);
 
     const targets = [
-      document.querySelector("#d1blade").object3D,
-      document.querySelector("#d2blade").object3D,
-      document.querySelector("#d3blade").object3D
+      document.querySelector("#d1hit").object3D,
+      document.querySelector("#d2hit").object3D,
+      document.querySelector("#d3hit").object3D
     ];
 
     const hits = raycaster.intersectObjects(targets, true);
@@ -115,9 +135,9 @@ window.addEventListener("load", () => {
 
     const id = hits[0].object.el.id;
 
-    if(id === "d1blade") cycle("#d1blade",0);
-    if(id === "d2blade") cycle("#d2blade",1);
-    if(id === "d3blade") cycle("#d3blade",2);
+    if(id === "d1hit") cycle("#d1blade",0);
+    if(id === "d2hit") cycle("#d2blade",1);
+    if(id === "d3hit") cycle("#d3blade",2);
 
   });
 
