@@ -9,6 +9,12 @@
 
 <body style="margin:0; overflow:hidden; touch-action:none;">
 
+    <div style="position: fixed; top: 10px; left: 10px; color: white; font-family: Arial, sans-serif; font-size: 16px; background: rgba(0, 0, 0, 0.7); padding: 15px; border-radius: 5px; max-width: 300px; z-index: 100;">
+        <h2 style="margin: 0 0 10px 0; color: #ff66ff;">Different colors less unity. What do you do?</h2>
+        <p style="margin: 5px 0; font-size: 14px;">Click each dagger to cycle through colors</p>
+        <p style="margin: 5px 0; font-size: 14px;">Match all three daggers to the same color to win</p>
+    </div>
+
     <a-scene 
         embedded 
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
@@ -26,7 +32,7 @@
             </a-entity>
         </a-entity>
 
-        <!--<a-marker preset="hiro" smooth="true" smoothCount="5">-->
+        <!--<a-marker preset="kanji" smooth="true" smoothCount="5">-->
         <a-marker type="pattern" url="marker.patt" smooth="true" smoothCount="5">
 
             <a-text 
