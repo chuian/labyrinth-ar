@@ -9,12 +9,6 @@
 
 <body style="margin:0; overflow:hidden; touch-action:none;">
 
-    <div style="position: fixed; top: 10px; left: 10px; color: white; font-family: Arial, sans-serif; font-size: 16px; background: rgba(0, 0, 0, 0.7); padding: 15px; border-radius: 5px; max-width: 300px; z-index: 100;">
-        <h2 style="margin: 0 0 10px 0; color: #ff66ff;">Different colors less unity. What do you do?</h2>
-        <p style="margin: 5px 0; font-size: 14px;">Click each dagger to cycle through colors</p>
-        <p style="margin: 5px 0; font-size: 14px;">Match all three daggers to the same color to win</p>
-    </div>
-
     <a-scene 
         embedded 
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
@@ -42,6 +36,24 @@
                 align="center" 
                 scale="0.4 0.4 0.4" 
                 color="#ff66ff">
+            </a-text>
+
+            <a-text 
+                value="Different colors less unity. What do you do?" 
+                position="0 0.2 -0.6" 
+                rotation="-90 0 0" 
+                align="center" 
+                scale="0.2 0.2 0.2" 
+                color="#ff66ff">
+            </a-text>
+
+            <a-text 
+                value="Click daggers to cycle colors • Match all to same color to win" 
+                position="0 -0.1 -0.6" 
+                rotation="-90 0 0" 
+                align="center" 
+                scale="0.15 0.15 0.15" 
+                color="#ffffff">
             </a-text>
 
             <a-entity id="dagger1" position="-0.4 0.2 0" rotation="-90 0 0" scale="0.7 0.7 0.7">
